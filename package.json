@@ -1,0 +1,22 @@
+{
+  "name": "hardhat-project",
+  "description": "This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts.",
+  "version": "1.0.0",
+  "main": "hardhat.config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mariano Salazar",
+  "license": "ISC",
+  "devDependencies": {
+    "@nomiclabs/hardhat-etherscan": "^3.0.3",
+    "@primitivefi/hardhat-marmite": "^0.0.4",
+    "dotenv": "^16.0.0",
+    "hardhat-contract-sizer": "^2.5.0",
+    "hardhat-gas-reporter": "^1.0.8",
+    "hardhat-gas-trackooor": "^1.0.2"
+  }
+}
