@@ -1,0 +1,17 @@
+
+const [owner, addr1, addr2, addr3] = await ethers.getSigners()
+
+NFTToken        
+
+const NFT = await ethers.getContractFactory('NFTToken')
+const nft = await NFT.attach('0x5FbDB2315678afecb367f032d93F642f64180aa3')
+
+let zeroaddress = '0x0000000000000000000000000000000000000000'
+await nft.mint()
+await nft.mintTo(addr2.address)
+
+const NFT = await ethers.getContractFactory('Objects')
+const nft = await NFT.attach('0x5FbDB2315678afecb367f032d93F642f64180aa3')
+await nft.create(2,1,"0x00")
+
+await nft.safeTransferFrom(owner.address, addr3.address, 0, 1, "0x00")

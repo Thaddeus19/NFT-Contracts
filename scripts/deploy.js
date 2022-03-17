@@ -5,21 +5,27 @@
 // Runtime Environment's members available in the global scope.
 const hre = require("hardhat");
 
-async function main() {
-  // Hardhat always runs the compile task when running scripts with its command
-  // line interface.
-  //
-  // If this script is run directly using `node` you may want to call compile
-  // manually to make sure everything is compiled
-  // await hre.run('compile');
-
-  // We get the contract to deploy
+//deploy localhost
+/*async function main() {
+  [deployer] = await ethers.getSigners();
   const NFTToken = await hre.ethers.getContractFactory("NFTToken");
-  const nft = await NFTToken.deploy();
+  const nft = await NFTToken.deploy("http://localhost/");
 
   await nft.deployed();
 
-  console.log("NFT deployed to:", nft.address);
+  console.log("NFT deployed to:", nft.address);s
+}*/
+
+//deploy testnet o mainnet
+async function main() {
+[deployer] = await ethers.getSigners();
+const NFTToken = await hre.ethers.getContractFactory("NFTToken");
+/*I must send in the constructor the url of the IPFS containing the metadata*/
+const nft = await NFTToken.deploy("https://gateway.pinata.cloud/ipfs/QmZ8ncNkicBLb8Mz7yuK442b3YaPkMzuUarBYsSgDLNHny/");
+
+await nft.deployed();
+
+console.log("NFT deployed to:", nft.address);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
