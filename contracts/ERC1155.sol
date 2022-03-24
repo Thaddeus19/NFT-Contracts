@@ -1,36 +1,54 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "./AccessControl.sol";
+import "./ERC115URIStorage.sol";
 
-contract Objects is ERC1155 {
-    event PermanentURI(string _value, uint256 indexed _id);
+/// @title  ERC1155 contract
+/// @notice This contract is to create an ERC1155 collection with custom metadata.
+/// @author Mariano Salazar
+/// @author Modified from OpenZeppelin (https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC1155/ERC1155.sol)
 
+contract Objects is AccessControl, Ownable, ERC115URIStorage {
     error exceedssupply();
-
-    mapping(uint256 => uint256) public supply;
+    error havenoadminrole();
 
     using Strings for uint256;
-    string internal baseuri;
-    string public uriSuffix = ".json";
+    // Token name
+    string private _name;
+    // Token symbol
+    string private _symbol;
 
-    constructor()
-        ERC1155(
-            "https://ipfs.moralis.io:2053/ipfs/QmbCUjN57GbsPsQhcqjNwSf2DDbRthqy5DYKbqPSwwTBX6/metadata/"
-        )
-    {
-        create(0, 99, "");
-        create(1, 100, "");
-        create(2, 1, "");
-        setURI(
-            "https://ipfs.moralis.io:2053/ipfs/QmbCUjN57GbsPsQhcqjNwSf2DDbRthqy5DYKbqPSwwTBX6/metadata/"
+    constructor() ERC1155("") {
+        create(
+            0,
+            99,
+            "https://ipfs.moralis.io:2053/ipfs/QmbCUjN57GbsPsQhcqjNwSf2DDbRthqy5DYKbqPSwwTBX6/metadata/0.json",
+            ""
         );
+        create(
+            1,
+            100,
+            "https://ipfs.moralis.io:2053/ipfs/QmbCUjN57GbsPsQhcqjNwSf2DDbRthqy5DYKbqPSwwTBX6/metadata/1.json",
+            ""
+        );
+        create(
+            2,
+            1,
+            "https://ipfs.moralis.io:2053/ipfs/QmbCUjN57GbsPsQhcqjNwSf2DDbRthqy5DYKbqPSwwTBX6/metadata/2.json",
+            ""
+        );
+        _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
+        _name = "Test ERC1155";
+        _symbol = "TE1155";
     }
 
     function create(
         uint256 id,
         uint256 amount,
+        string memory _tokenURI,
         bytes memory data
     ) public {
         uint256 max = supply[id];
@@ -39,39 +57,21 @@ contract Objects is ERC1155 {
         }
         supply[id] += amount;
         _mint(msg.sender, id, amount, data);
-        //string memory eventuri = tokenURI(id);
-        emit PermanentURI(uri(id), id);
+        _setTokenURI(id, _tokenURI);
     }
 
-    function uri(uint256 _tokenId)
-        public
-        view
-        override
-        returns (string memory)
-    {
-        require(
-            _exists(_tokenId),
-            "ERC721Metadata: URI query for nonexistent token"
-        );
-
-        string memory currentBaseURI = baseuri;
-        return
-            bytes(currentBaseURI).length > 0
-                ? string(
-                    abi.encodePacked(
-                        currentBaseURI,
-                        _tokenId.toString(),
-                        uriSuffix
-                    )
-                )
-                : "";
+    function closeMetadata() public virtual {
+        if (!hasRole(DEFAULT_ADMIN_ROLE, msg.sender)) {
+            revert havenoadminrole();
+        }
+        _closeMetadata();
     }
 
-    function _exists(uint256 tokenId) internal view virtual returns (bool) {
-        return supply[tokenId] > 0;
+    function name() public view virtual returns (string memory) {
+        return _name;
     }
 
-    function setURI(string memory _baseuri) internal {
-        baseuri = _baseuri;
+    function symbol() public view virtual returns (string memory) {
+        return _symbol;
     }
 }

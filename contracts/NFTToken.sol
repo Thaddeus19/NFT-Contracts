@@ -3,6 +3,7 @@
 pragma solidity ^0.8.4;
 
 import "./AccessControl.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
@@ -11,7 +12,7 @@ import "@openzeppelin/contracts/utils/Strings.sol";
  * @title ERC721 contract
  * ERC721 contract has minting functionality.
  */
-contract NFTToken is ERC721, AccessControl {
+contract NFTToken is ERC721, AccessControl, Ownable {
     error thecontractispaused();
     error havenoadminrole();
     error havenominterrole();
@@ -21,6 +22,7 @@ contract NFTToken is ERC721, AccessControl {
     using Counters for Counters.Counter;
 
     Counters.Counter private _nextTokenId;
+
     string public uriPrefix = "";
     string public uriSuffix = ".json";
 
