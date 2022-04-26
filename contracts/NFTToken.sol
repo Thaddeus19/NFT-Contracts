@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.4;
+pragma solidity >=0.8.4;
 
 import "./AccessControl.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -31,6 +31,11 @@ contract NFTToken is ERC721, AccessControl, Ownable {
     uint256 public maxSupply = 10;
 
     bool public paused = false;
+
+    bool public reveal = false;
+
+    string hideUri =
+        "https://gateway.moralisipfs.com/ipfs/QmeZuB5Wt7W8kADFQh7Z52s28hV4nrq8muvB6u9xeJde6r/images/10.png";
 
     constructor(string memory _baseUri) ERC721("NFT Test", "CNFT") {
         //nextTokenId is initialized to 1, since starting at 0 leads to higher gas cost for the first minter
@@ -128,17 +133,21 @@ contract NFTToken is ERC721, AccessControl, Ownable {
             "ERC721Metadata: URI query for nonexistent token"
         );
 
-        string memory currentBaseURI = _baseURI();
-        return
-            bytes(currentBaseURI).length > 0
-                ? string(
-                    abi.encodePacked(
-                        currentBaseURI,
-                        _tokenId.toString(),
-                        uriSuffix
+        if (!reveal) {
+            return hideUri;
+        } else {
+            string memory currentBaseURI = _baseURI();
+            return
+                bytes(currentBaseURI).length > 0
+                    ? string(
+                        abi.encodePacked(
+                            currentBaseURI,
+                            _tokenId.toString(),
+                            uriSuffix
+                        )
                     )
-                )
-                : "";
+                    : "";
+        }
     }
 
     function setUriPrefix(string memory _uriPrefix) internal {
@@ -150,6 +159,13 @@ contract NFTToken is ERC721, AccessControl, Ownable {
 
     function _baseURI() internal view virtual override returns (string memory) {
         return uriPrefix;
+    }
+
+    function setreveal() public {
+        if (!hasRole(DEFAULT_ADMIN_ROLE, msg.sender)) {
+            revert havenoadminrole();
+        }
+        reveal = true;
     }
 
     ///@dev Use this function only in testnet to delete the contract at the end of the tests

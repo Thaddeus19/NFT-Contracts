@@ -6,27 +6,27 @@
 const hre = require("hardhat");
 
 //deploy localhost
-/*async function main() {
+async function main() {
   [deployer] = await ethers.getSigners();
   const NFTToken = await hre.ethers.getContractFactory("NFTToken");
-  const nft = await NFTToken.deploy("http://localhost/");
+  const nft = await NFTToken.deploy("https://gateway.pinata.cloud/ipfs/QmZ8ncNkicBLb8Mz7yuK442b3YaPkMzuUarBYsSgDLNHny/");
 
   await nft.deployed();
 
-  console.log("NFT deployed to:", nft.address);s
-}*/
+  console.log("NFT deployed to:", nft.address);
+}
 
 //deploy testnet o mainnet
-async function main() {
+/*async function main() {
 [deployer] = await ethers.getSigners();
 const NFTToken = await hre.ethers.getContractFactory("NFTToken");
 /*I must send in the constructor the url of the IPFS containing the metadata*/
-const nft = await NFTToken.deploy("https://gateway.pinata.cloud/ipfs/QmZ8ncNkicBLb8Mz7yuK442b3YaPkMzuUarBYsSgDLNHny/");
+/*const nft = await NFTToken.deploy("https://gateway.pinata.cloud/ipfs/QmZ8ncNkicBLb8Mz7yuK442b3YaPkMzuUarBYsSgDLNHny/");
 
 await nft.deployed();
 
 console.log("NFT deployed to:", nft.address);
-}
+}*/
 
 // We recommend this pattern to be able to use async/await everywhere
 // and properly handle errors.
