@@ -35,7 +35,7 @@ contract NFTToken is ERC721, AccessControl, Ownable {
     bool public reveal = false;
 
     string hideUri =
-        "https://gateway.moralisipfs.com/ipfs/QmeZuB5Wt7W8kADFQh7Z52s28hV4nrq8muvB6u9xeJde6r/images/10.png";
+        "https://gateway.pinata.cloud/ipfs/QmQwWMSWTV928UfMBHT8ibWTikrQ8suB7GP73ARyWuaATq";
 
     constructor(string memory _baseUri) ERC721("NFT Test", "CNFT") {
         //nextTokenId is initialized to 1, since starting at 0 leads to higher gas cost for the first minter

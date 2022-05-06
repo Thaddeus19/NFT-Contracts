@@ -1,15 +1,7 @@
-# Basic Sample Hardhat Project
+# ERC721 Contract Fill a Super Bowl
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts.
+This is an NFT collection in which the metadata will be hidden until the decision is made to disclose it after the sale of the NFTs.
 
-Try running some of the following tasks:
+It is a gas consumption optimized contract, with authority levels.
 
-```shell
-npx hardhat accounts
-npx hardhat compile
-npx hardhat clean
-npx hardhat test
-npx hardhat node
-node scripts/sample-script.js
-npx hardhat help
-```
+The smartcontract in testnet is self-destructing, remove this function for mainnet deployment, as well as the minter role.
