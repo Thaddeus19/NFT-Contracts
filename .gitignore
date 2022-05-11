@@ -4,11 +4,7 @@ coverage
 coverage.json
 typechain
 test contract in console.txt
-ERC1155.sol
-ERC115URIStorage.sol
-deploy1155.js
-test1155.js
-images
+
 #Hardhat files
 cache
 artifacts
