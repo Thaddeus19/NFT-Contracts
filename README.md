@@ -1,4 +1,4 @@
-# ERC721 Contract Fill a Super Bowl
+# ERC721 Contract
 
 This is an NFT collection in which the metadata will be hidden until the decision is made to disclose it after the sale of the NFTs.
 
